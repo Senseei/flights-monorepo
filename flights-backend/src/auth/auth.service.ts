@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { InvalidCredentialsException } from './exceptions/invalid-credentials.exception';
 import { JwtToken } from './interfaces/jwt-token.interface';
 import { AuthenticatedUserDTO } from './dtos/authenticated-user.dto';
-import { UsersRepository } from '../users/users.repository';
+import { UsersRepository } from '@users/users.repository';
 
 @Injectable()
 export class AuthService {
