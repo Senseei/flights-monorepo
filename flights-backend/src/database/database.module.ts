@@ -17,7 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         autoLoadEntities: true,
         synchronize: configService.get('NODE_ENV') === 'development', // Sync only in development
         migrations: [`${__dirname}/migrations/*{.ts,.js}`],
-        migrationsRun: configService.get('NODE_ENV') === 'production', // Run migrations in prod
+        migrationsRun: true,
         ssl:
           configService.get('NODE_ENV') === 'production'
             ? {
