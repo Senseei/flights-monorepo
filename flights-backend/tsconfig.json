@@ -13,6 +13,7 @@
     "paths": {
       "@auth/*": ["src/auth/*"],
       "@users/*": ["src/users/*"],
+      "@flights/*": ["src/flights/*"],
       "@common/*": ["src/common/*"],
     },
     "incremental": true,
