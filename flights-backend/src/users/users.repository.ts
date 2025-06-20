@@ -1,15 +1,16 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { CRUDRepository } from '@common/common.repository';
 
-export class UsersRepository {
+export class UsersRepository extends CRUDRepository<User> {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
-  ) {}
+    @InjectRepository(User) repository: Repository<User>,
+  ) {
+    super(repository);
+  }
 
   public async findByEmail(email: string): Promise<User | null> {
-    return this.usersRepository.findOne({
-      where: { email },
-    });
+    return this.repository.findOneBy({ email });
   }
 }
