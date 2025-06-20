@@ -12,10 +12,10 @@ services:
     env_file:
       - .env
     depends_on:
-      - postgres
+      - db
     command: yarn run start:dev
 
-  postgres:
+  db:
     container_name: flights_postgres_container
     image: postgres:15
     ports:
