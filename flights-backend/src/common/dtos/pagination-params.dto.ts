@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, Min } from "class-validator";
+import { IsIn, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class PaginationParamsDTO {
   @IsOptional()
@@ -7,9 +7,18 @@ export class PaginationParamsDTO {
   @Min(1)
   @Type(() => Number)
   page = 1;
+
   @IsOptional()
   @IsInt()
   @Min(1)
   @Type(() => Number)
   limit = 10;
+
+  @IsOptional()
+  @IsString()
+  sortField?: string = 'createdAt';
+
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  sortOrder?: 'ASC' | 'DESC' = 'DESC';
 }
