@@ -27,12 +27,14 @@ export class FlightsService {
     );
   }
 
-  public async findAllBookmarksByUserId(id: number): Promise<FlightDTO[]> {
-    const user = await this.usersRepository.findById(id);
-    if (!user) {
-      throw new EntityNotFoundException('User', id);
-    }
-    return user.bookmarks.map((it) => new FlightDTO(it));
+  public async findAllBookmarksByUserId(id: number, pagination: PaginationParamsDTO): Promise<PaginatedResultDTO<FlightDTO>> {
+    const result = await this.repository.findBookmarksByUserId(id, pagination.page, pagination.limit);
+    return new PaginatedResultDTO<FlightDTO>(
+      result.items.map(flight => new FlightDTO(flight)),
+      result.count,
+      pagination.limit,
+      pagination.page,
+    );
   }
 
   public async addFlightToBookmarks(userId: number, flightId: number): Promise<void> {
