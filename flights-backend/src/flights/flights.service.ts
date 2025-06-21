@@ -19,10 +19,9 @@ export class FlightsService {
   ) {}
 
   public async findAll(pagination: PaginationParamsDTO, filters: FlightFiltersDTO): Promise<PaginatedResultDTO<FlightDTO>> {
-    const { page, limit, sortField, sortOrder } = pagination;
-    const validatedSortField = this.entityValidatorService.getSafeEntityKey(Flight, sortField, 'createdAt');
-    console.log(validatedSortField);
-    const result = await this.repository.findAll(page, limit, filters, validatedSortField, sortOrder);
+    const { page, limit, orderBy, order } = pagination;
+    const validatedSortField = this.entityValidatorService.getSafeEntityKey(Flight, orderBy, 'id');
+    const result = await this.repository.findAll(page, limit, filters, validatedSortField, order);
 
     return new PaginatedResultDTO<FlightDTO>(
       result.items.map(flight => new FlightDTO(flight)),
