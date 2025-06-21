@@ -4,6 +4,9 @@ import { FlightDTO } from '@flights/dtos/FlightDTO';
 import { UsersRepository } from '@users/users.repository';
 import { EntityNotFoundException } from '@common/exceptions/entity-not-found.exception';
 import { FlightAlreadyBookmarkedException } from '@flights/exceptions/flight-already-bookmarked.exception';
+import { PaginationParamsDTO } from '@common/dtos/pagination-params.dto';
+import { FlightFiltersDTO } from '@flights/dtos/flight-filters.dto';
+import { PaginatedResultDTO } from '@common/dtos/paginated-result.dto';
 
 @Injectable()
 export class FlightsService {
@@ -12,8 +15,16 @@ export class FlightsService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  public async findAll(): Promise<FlightDTO[]> {
-    return (await this.repository.findAll()).map((it) => new FlightDTO(it));
+  public async findAll(pagination: PaginationParamsDTO, filters: FlightFiltersDTO): Promise<PaginatedResultDTO<FlightDTO>> {
+    const { page, limit } = pagination;
+    const result = await this.repository.findAll(page, limit, filters);
+
+    return new PaginatedResultDTO<FlightDTO>(
+      result.items.map(flight => new FlightDTO(flight)),
+      result.count,
+      limit,
+      page,
+    );
   }
 
   public async findAllBookmarksByUserId(id: number): Promise<FlightDTO[]> {

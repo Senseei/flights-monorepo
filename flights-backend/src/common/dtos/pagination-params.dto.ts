@@ -12,8 +12,4 @@ export class PaginationParamsDTO {
   @Min(1)
   @Type(() => Number)
   limit = 10;
-
-  public getOffset(): number {
-    return (this.page - 1) * this.limit;
-  }
 }
