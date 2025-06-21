@@ -8,17 +8,21 @@ import { PaginationParamsDTO } from '@common/dtos/pagination-params.dto';
 import { FlightFiltersDTO } from '@flights/dtos/flight-filters.dto';
 import { PaginatedResultDTO } from '@common/dtos/paginated-result.dto';
 import { Flight } from '@flights/entities/flight.entity';
+import { EntityValidatorService } from '@common/entity-validator.service';
 
 @Injectable()
 export class FlightsService {
   constructor(
     private readonly repository: FlightsRepository,
     private readonly usersRepository: UsersRepository,
+    private readonly entityValidatorService: EntityValidatorService,
   ) {}
 
   public async findAll(pagination: PaginationParamsDTO, filters: FlightFiltersDTO): Promise<PaginatedResultDTO<FlightDTO>> {
     const { page, limit, sortField, sortOrder } = pagination;
-    const result = await this.repository.findAll(page, limit, filters, sortField as keyof Flight, sortOrder);
+    const validatedSortField = this.entityValidatorService.getSafeEntityKey(Flight, sortField, 'createdAt');
+    console.log(validatedSortField);
+    const result = await this.repository.findAll(page, limit, filters, validatedSortField, sortOrder);
 
     return new PaginatedResultDTO<FlightDTO>(
       result.items.map(flight => new FlightDTO(flight)),

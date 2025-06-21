@@ -16,9 +16,9 @@ export class PaginationParamsDTO {
 
   @IsOptional()
   @IsString()
-  sortField?: string = 'createdAt';
+  sortField: string = 'createdAt';
 
   @IsOptional()
   @IsIn(['ASC', 'DESC'])
-  sortOrder?: 'ASC' | 'DESC' = 'DESC';
+  sortOrder: 'ASC' | 'DESC' = 'DESC';
 }

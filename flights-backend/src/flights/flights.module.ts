@@ -6,9 +6,10 @@ import { FlightsRepository } from '@flights/flights.repository';
 import { FlightsController } from './controllers/flights.controller';
 import { BookmarksController } from './controllers/bookmarks.controller';
 import { UsersModule } from '@users/users.module';
+import { CommonModule } from '@common/common.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Flight]), UsersModule],
+  imports: [TypeOrmModule.forFeature([Flight]), UsersModule, CommonModule],
   controllers: [FlightsController, BookmarksController],
   providers: [FlightsService, FlightsRepository],
   exports: [],
