@@ -1,7 +1,21 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '@auth/jwt-auth.guard';
 import { FlightsService } from '@flights/flights.service';
 import { FlightDTO } from '@flights/dtos/FlightDTO';
+import { PaginatedResultDTO } from '@common/dtos/paginated-result.dto';
+import { PaginationParamsDTO } from '@common/dtos/pagination-params.dto';
 
 @Controller('bookmarks')
 @UseGuards(JwtAuthGuard)
@@ -9,8 +23,8 @@ export class BookmarksController {
   constructor(private readonly service: FlightsService) {}
 
   @Get()
-  public async findAll(@Req() request: any): Promise<FlightDTO[]> {
-    return this.service.findAllBookmarksByUserId(parseInt(request.user.id));
+  public async findAll(@Req() request: any, @Query() paginationParams: PaginationParamsDTO): Promise<PaginatedResultDTO<FlightDTO>> {
+    return this.service.findAllBookmarksByUserId(parseInt(request.user.id), paginationParams);
   }
 
   @Post()
