@@ -1,9 +1,11 @@
 import './App.css'
 
+import { Flights } from '@/pages'
+
 function App() {
   return (
     <>
-        Hello, world!
+      <Flights />
     </>
   )
 }
